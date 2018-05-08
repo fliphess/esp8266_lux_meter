@@ -2,7 +2,7 @@
 // * Settings                       *
 // **********************************
 
-#define OLED_RESET LED_BUILTIN  //4
+#define OLED_RESET LED_BUILTIN
 #define BAUD_RATE 115200
 
 #define DISPLAY_I2C_ADDR 0x3C

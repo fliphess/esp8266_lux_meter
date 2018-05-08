@@ -48,8 +48,7 @@ void ICACHE_RAM_ATTR osWatch(void)
     unsigned long t = millis();
     unsigned long last_run = abs(t - last_loop);
     if (last_run >= (OSWATCH_RESET_TIME * 1000)) {
-        // save the hit here to eeprom or to rtc memory if needed
-        ESP.restart();  // normal reboot
+        ESP.restart();
     }
 }
 
@@ -271,7 +270,7 @@ void setup_ota()
 
 void setup()
 {
-    // Configure Watchdog
+    // * Configure Watchdog
     last_loop = millis();
     tickerOSWatch.attach_ms(((OSWATCH_RESET_TIME / 3) * 1000), osWatch);
 
@@ -399,7 +398,7 @@ void loop()
     ArduinoOTA.handle();
 
     // **********************************
-    // Maintain MQTT Connection         *
+    // * Maintain MQTT Connection       *
     // **********************************
     unsigned long NOW = millis();
 
