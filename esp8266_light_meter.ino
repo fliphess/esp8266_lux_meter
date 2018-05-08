@@ -141,21 +141,6 @@ void update_display()
 // * MQTT                           *
 // **********************************
 
-// * Callback for incoming MQTT messages
-void mqtt_callback(char* topic, byte* payload_in, unsigned int length)
-{
-    char* payload = (char *) malloc(length + 1);
-    memcpy(payload, payload_in, length);
-    payload[length] = 0;
-
-    Serial.printf("MQTT Incoming on %s: ", topic);
-    Serial.println(payload);
-
-    // * TODO - Do something useful here
-
-    free(payload);
-}
-
 // * Reconnect to MQTT server and subscribe to in and out topics
 bool mqtt_reconnect()
 {
@@ -180,9 +165,6 @@ bool mqtt_reconnect()
             mqtt_client.publish("hass/status", message);
 
             Serial.printf("MQTT topic: %s\n", MQTT_SENSOR_CHANNEL);
-
-            // * Resubscribe to the state and verify mqtt topic
-            mqtt_client.subscribe(MQTT_SENSOR_CHANNEL);
 
             // * Set display to "System Online"
             display_message("Online.");
@@ -398,7 +380,6 @@ void setup()
 
     // * Setup MQTT
     mqtt_client.setServer(MQTT_HOST, atoi(MQTT_PORT));
-    mqtt_client.setCallback(mqtt_callback);
     Serial.printf("MQTT connecting to: %s:%s\n", MQTT_HOST, MQTT_PORT);
 
     // * Set the display to "System Connect"

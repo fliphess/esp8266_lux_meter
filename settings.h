@@ -45,7 +45,7 @@ const long MQTT_RECONNECT_DELAY = 5000;
 
 // * MQTT publish to broker counters
 unsigned long MQTT_LAST_UPDATE         = 0;            // * Will store the last time the value was sent to the broker
-const long    MQTT_UPDATE_FREQUENCY    = 5000;         // * Send the measured value to the broker every 5 seconds
+const long    MQTT_UPDATE_FREQUENCY    = 10000;        // * Send the measured value to the broker every 5 seconds
 
 // * Will be changed when the display should update
 bool          DISPLAY_SHOULD_UPDATE    = true;         // * Will be set to true when display needs an update
