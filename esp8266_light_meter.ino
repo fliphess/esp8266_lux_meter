@@ -424,12 +424,12 @@ void loop()
     // **********************************
     // Maintain MQTT Connection         *
     // **********************************
+    unsigned long NOW = millis();
 
     if (!mqtt_client.connected()) {
-        unsigned long now = millis();
 
-        if (now - LAST_RECONNECT_ATTEMPT >= MQTT_RECONNECT_DELAY) {
-            LAST_RECONNECT_ATTEMPT = now;
+        if (NOW - LAST_RECONNECT_ATTEMPT >= MQTT_RECONNECT_DELAY) {
+            LAST_RECONNECT_ATTEMPT = NOW;
 
             if (mqtt_reconnect()) {
                 LAST_RECONNECT_ATTEMPT = 0;
@@ -443,21 +443,19 @@ void loop()
     // **********************************
     // * Read the meter                 *
     // **********************************
-
-    unsigned long NOW = millis();
-    bool LUX_VALUE_CHANGED = false;
+    bool LUX_VALUE_CHANGED  = false;
 
     if (NOW - LUX_METER_LAST_READ >= LUX_METER_READ_FREQUENCY) {
-        uint16_t LUX = lux_meter.readLightLevel();
-
+        uint16_t LUX        = lux_meter.readLightLevel();
         LUX_METER_LAST_READ = NOW;
 
         if (LUX_METER_LAST_VALUE != LUX) {
             LUX_METER_LAST_VALUE = LUX;
             LUX_VALUE_CHANGED = true;
-
-            itoa(LUX_METER_LAST_VALUE, LUX_METER_VALUE_AS_CHAR, 10);
             set_display_should_update();
+
+            // * Convert measured value to a char
+            itoa((int)LUX_METER_LAST_VALUE, LUX_METER_VALUE_AS_CHAR, 10);
         }
     }
 
@@ -467,7 +465,7 @@ void loop()
 
     if (LUX_VALUE_CHANGED || NOW - MQTT_LAST_UPDATE >= MQTT_UPDATE_FREQUENCY) {
 
-        MQTT_LAST_UPDATE = NOW;
+        MQTT_LAST_UPDATE  = NOW;
         LUX_VALUE_CHANGED = false;
 
         Serial.print(F("Sending data to broker: "));
