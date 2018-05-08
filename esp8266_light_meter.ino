@@ -38,9 +38,6 @@ Adafruit_SSD1306 display(OLED_RESET);
 // * Initiate lux meter
 BH1750 lux_meter(LUX_METER_I2C_ADDR);
 
-// * Used by wifi manager to determine if settings should be saved
-bool shouldSaveConfig = false;
-
 // **********************************
 // * System Functions               *
 // **********************************
@@ -98,7 +95,6 @@ void set_display_updated()
 // * Force a display update
 void set_display_should_update()
 {
-
     DISPLAY_SHOULD_UPDATE = true;
 }
 
@@ -443,10 +439,10 @@ void loop()
     // **********************************
     // * Read the meter                 *
     // **********************************
-    bool LUX_VALUE_CHANGED  = false;
+    bool LUX_VALUE_CHANGED = false;
 
     if (NOW - LUX_METER_LAST_READ >= LUX_METER_READ_FREQUENCY) {
-        uint16_t LUX        = lux_meter.readLightLevel();
+        uint16_t LUX = lux_meter.readLightLevel();
         LUX_METER_LAST_READ = NOW;
 
         if (LUX_METER_LAST_VALUE != LUX) {
@@ -465,7 +461,7 @@ void loop()
 
     if (LUX_VALUE_CHANGED || NOW - MQTT_LAST_UPDATE >= MQTT_UPDATE_FREQUENCY) {
 
-        MQTT_LAST_UPDATE  = NOW;
+        MQTT_LAST_UPDATE = NOW;
         LUX_VALUE_CHANGED = false;
 
         Serial.print(F("Sending data to broker: "));

@@ -27,6 +27,9 @@
 // * Watchdog: Will be updated each loop
 static unsigned long last_loop;
 
+// * Used by wifi manager to determine if settings should be saved
+bool shouldSaveConfig = false;
+
 // * MQTT topic settings
 char * MQTT_SENSOR_CHANNEL = (char*) "sensors/luxmeter1/lux";
 
@@ -56,4 +59,3 @@ const long    LUX_METER_READ_FREQUENCY = 1000;         // * Read the value evewr
 // * Lux meter last values
 uint16_t      LUX_METER_LAST_VALUE;
 char          LUX_METER_VALUE_AS_CHAR[12];
-
